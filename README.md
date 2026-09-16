@@ -1,14 +1,9 @@
-# ANYWHERE 2027
-Modern flight-deal tracker V1 prototype.
-
-## Current V1
-- Anywhere-style search UI
-- Today's best deals
-- 2027 monthly price overview
-- Watchlist
-- Auto-update schedule display at 12:00 Thailand time
-- Manual "UPDATE NOW" interaction
-- Responsive desktop/mobile design
-
-## Next integration
-Connect the frontend to Supabase and a permitted flight-fare data source/API. Store fare snapshots with timestamps, source, route, baggage assumptions, and booking URL. Then run a scheduled job daily at 12:00 Asia/Bangkok and allow manual refresh with rate limiting.
+ANYWHERE 2027 — V2 Anime/Japanese UI
+หน้าเว็บต้นแบบภาษาไทยสำหรับ Flight Deal Tracker
+Japanese/anime-inspired cute travel journal style
+ภาษาไทยเป็นหลัก
+Dashboard, deal cards, budget ideas, 2027 price calendar, watchlist
+ปุ่มอัปเดตข้อมูลด้วยตัวเอง
+แสดงกำหนด Auto Update 12:00 น. เวลาไทย
+Responsive สำหรับมือถือ
+หมายเหตุ: ตัวเลขเที่ยวบินใน V2 เป็นข้อมูลตัวอย่างสำหรับออกแบบ UI ยังไม่ได้เชื่อม API ราคาจริง
