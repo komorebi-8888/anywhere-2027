@@ -1,149 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ANYWHERE 2027 | เที่ยวไกลขึ้น ในงบที่ใช่ ♡</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Itim&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#24304a;--pink:#ff6f91;--pink2:#ffd9e2;--cream:#fffaf4;--paper:#fff;
-  --sky:#dff2ff;--green:#55ad72;--yellow:#f5c75a;--red:#ef5c68;--line:#eadfdc;
-  --shadow:0 8px 24px rgba(55,42,56,.08)
-}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff9f5,#fff5f8);color:var(--ink);font-family:"Noto Sans Thai",sans-serif}
-button,select{font:inherit}.app{max-width:1400px;margin:auto;display:grid;grid-template-columns:155px 1fr;min-height:100vh}
-.side{position:sticky;top:0;height:100vh;padding:22px 14px;background:#fffdf9;border-right:1px dashed #e7d5d3}
-.logo{font-family:Itim,cursive;text-align:center;font-size:25px;line-height:.9;transform:rotate(-2deg);margin:6px 0 8px}.logo b{color:var(--pink)}.tag{text-align:center;font-family:Itim;color:#657087;font-size:14px;line-height:1.3;margin-bottom:20px}
-.side-nav{display:grid;gap:7px}.nav{border:0;background:transparent;border-radius:15px;padding:10px 7px;color:#536078;cursor:pointer;font-weight:700;font-size:12px}.nav.active,.nav:hover{background:#ffe8ed;color:#e94f74}.nav span{display:block;font-size:21px;margin-bottom:2px}
-.side-note{position:absolute;bottom:24px;left:14px;right:14px;background:#fff2f5;border:1px solid #ffd5df;border-radius:16px;padding:10px;font-family:Itim;text-align:center;font-size:15px;transform:rotate(1deg)}
-.main{padding:0 22px 35px}.top{height:72px;display:flex;align-items:center;justify-content:space-between}.crumb{font-size:13px;color:#788198}.top-actions{display:flex;gap:8px;align-items:center}.pill{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 13px;color:#59657b;font-size:12px}.pill strong{color:var(--green)}
-.hero{border-radius:27px;overflow:hidden;position:relative;background:linear-gradient(120deg,#cceeff,#fbe1ea 55%,#fff3df);border:1px solid #f0dfe0;box-shadow:var(--shadow);min-height:250px;padding:38px 42px}
-.hero:before{content:"🌸  🌸  ✈️  🌸  🌸";position:absolute;top:16px;right:30px;font-size:20px;opacity:.65}.hero-art{position:absolute;right:3%;bottom:-2px;font-size:118px;filter:drop-shadow(0 5px 2px rgba(0,0,0,.08));transform:rotate(-4deg)}.hero h1{font-family:Itim,cursive;font-size:52px;line-height:1;margin:0 0 7px;letter-spacing:.3px}.hero h1 em{font-style:normal;color:#ee5578}.hero p{font-size:15px;margin:0 0 22px;color:#536078}.quote{display:inline-block;background:#fffdfb;padding:9px 16px;border-radius:17px;box-shadow:0 4px 14px #00000009;font-family:Itim;font-size:17px;transform:rotate(-1deg)}
-.searchbox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px;margin-top:-28px;position:relative;z-index:2;box-shadow:var(--shadow)}
-.tabs{display:flex;gap:7px;margin-bottom:11px}.tab{border:0;border-radius:999px;padding:8px 16px;background:#f7f5f5;color:#667084;cursor:pointer;font-weight:700;font-size:12px}.tab.active{background:var(--pink);color:#fff}
-.searchgrid{display:grid;grid-template-columns:1.3fr 1.3fr .8fr .8fr auto;gap:8px}.field{border:1px solid #eee3e1;border-radius:14px;padding:8px 12px;background:#fffdfc}.field small{display:block;color:#9298a5;font-size:10px}.field strong{font-size:12px}.searchbtn{border:0;border-radius:14px;background:var(--pink);color:#fff;padding:0 18px;font-weight:800;cursor:pointer}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{background:#faf8f7;border:1px solid #eee7e5;border-radius:999px;padding:6px 10px;font-size:11px;cursor:pointer}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:14px;margin-top:16px}.section{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 5px 18px #00000004}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:12px}.sectionhead h2{font-family:Itim,cursive;font-size:28px;margin:0}.sectionhead p{font-size:11px;color:#8a8f9b;margin:0}.more{color:#ed5576;font-size:11px;font-weight:800}
-.deals{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.deal{border:1px solid #eee5e2;border-radius:18px;overflow:hidden;background:#fff;position:relative}.pic{height:100px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#dff2ff,#ffe0e8)}.deal:nth-child(2) .pic{background:linear-gradient(135deg,#ffe2e8,#fff0c9)}.deal:nth-child(3) .pic{background:linear-gradient(135deg,#e4f7e9,#dff2ff)}.deal:nth-child(4) .pic{background:linear-gradient(135deg,#e8e1ff,#ffe4ea)}.dealbody{padding:10px 11px}.country{font-size:10px;color:#7d8595}.city{font-size:16px;font-weight:800;margin:2px 0}.en{font-size:10px;color:#9a9da7}.price{font-size:22px;font-weight:900;color:#ed5576;margin-top:6px}.old{text-decoration:line-through;color:#a6a8ae;font-size:10px}.drop{color:var(--green);font-weight:800;font-size:11px}.air{font-size:10px;color:#747b89;margin-top:6px}.heart{position:absolute;right:9px;bottom:11px;border:0;background:#fff;font-size:20px;color:#f06483;cursor:pointer}
-.sidebar{display:grid;gap:14px}.update{background:#fff;border:1px solid var(--line);border-radius:22px;padding:17px;box-shadow:var(--shadow)}.update h3{font-family:Itim;font-size:23px;margin:0 0 8px}.last{font-size:11px;color:#70798b}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#57b978;margin-right:6px}.updatebtn{width:100%;border:0;background:#ff9eb3;color:#fff;border-radius:13px;padding:10px;margin:13px 0 10px;font-weight:800;cursor:pointer}.next{font-size:11px;color:#6d7585}
-.calendar{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.month{padding:9px;border-radius:12px;background:#fff9ea;text-align:center}.month.good{background:#edf8ed}.month.high{background:#fff0f1}.month b{display:block;font-size:12px}.month span{font-size:13px;font-weight:900}.month.good span{color:#3d9b5e}.month.high span{color:#e65464}.legend{font-size:9px;color:#7b8190;margin-top:8px}
-.idea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.idea{border:1px dashed #ead8d7;border-radius:16px;padding:13px;text-align:center;background:#fffaf8}.idea .emoji{font-size:30px}.idea b{display:block;font-size:13px}.idea small{color:#7c8493;font-size:10px}
-.watch .watchrow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed #eee}.watchrow:last-child{border:0}.watchname{font-weight:800;font-size:12px}.watchtarget{font-size:10px;color:#8a8f9b}.watchprice{font-weight:900;color:#ed5576;font-size:13px}.mini{font-size:9px;color:var(--green);font-weight:800}
-.footer{text-align:center;font-family:Itim;font-size:18px;color:#69748a;padding:22px}.footer span{color:var(--pink)}
-.toast{position:fixed;right:20px;bottom:20px;background:#26334e;color:#fff;padding:12px 16px;border-radius:14px;font-size:12px;display:none;box-shadow:var(--shadow)}
-@media(max-width:1050px){.app{grid-template-columns:85px 1fr}.logo{font-size:18px}.tag{display:none}.nav{font-size:10px}.searchgrid{grid-template-columns:1fr 1fr}.searchbtn{height:44px}.deals{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:720px){.app{display:block}.side{position:sticky;z-index:5;top:0;height:auto;display:flex;align-items:center;padding:8px 12px;border-right:0;border-bottom:1px solid var(--line);gap:10px}.logo{margin:0;font-size:20px}.side-nav{display:flex;flex:1;justify-content:flex-end}.nav{padding:6px}.nav span{font-size:18px}.nav:not(.active){display:none}.side-note{display:none}.main{padding:0 12px 25px}.top{height:54px}.top-actions{display:none}.hero{padding:27px 20px;min-height:235px}.hero h1{font-size:42px;max-width:70%}.hero-art{font-size:90px;right:-3px}.searchbox{margin-top:-18px}.grid{grid-template-columns:1fr}.sidebar{grid-template-columns:1fr 1fr}.deals{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.hero h1{font-size:36px;max-width:100%}.hero-art{opacity:.25}.searchgrid{grid-template-columns:1fr}.searchbtn{height:44px}.sidebar{grid-template-columns:1fr}.deals{grid-template-columns:1fr 1fr}.pic{height:88px}.calendar{grid-template-columns:repeat(3,1fr)}.idea-grid{grid-template-columns:1fr}.section{padding:14px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANYWHERE 2027 🎮 | 8-BIT FLIGHT RADAR</title>
+    <!-- NES.css CDN -->
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS (สำหรับจัด Grid Layout) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Press Start 2P & Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', 'Press Start 2P', sans-serif;
+            background-color: #fafafa;
+            color: #212529;
+            image-rendering: pixelated;
+        }
+        .font-pixel {
+            font-family: 'Press Start 2P', cursive;
+        }
+        .nes-container.with-title > .title {
+            background-color: #fafafa;
+        }
+    </style>
 </head>
-<body>
-<div class="app">
-<aside class="side">
-  <div>
-    <div class="logo">ANYWHERE<br><b>2027</b> ✈</div>
-    <div class="tag">เที่ยวไกลขึ้น<br>ในงบที่ใช่ ♡</div>
-  </div>
-  <nav class="side-nav">
-    <button class="nav active"><span>⌂</span>หน้าแรก</button>
-    <button class="nav"><span>✈</span>ตั๋วเครื่องบิน</button>
-    <button class="nav"><span>▦</span>ปฏิทินราคา</button>
-    <button class="nav"><span>♡</span>สิ่งที่อยากไป</button>
-    <button class="nav"><span>◎</span>สำรวจประเทศ</button>
-    <button class="nav"><span>⚙</span>ตั้งค่า</button>
-  </nav>
-  <div class="side-note">เงินในบัญชี<br>ไม่ได้หายไปไหน...<br><b>มันแค่กลายเป็นทริป</b> ♡</div>
-</aside>
+<body class="p-4 sm:p-8 min-h-screen flex flex-col max-w-6xl mx-auto">
 
-<main class="main">
-  <div class="top">
-    <div class="crumb">หน้าแรก　›　ดีลเที่ยวปี 2027</div>
-    <div class="top-actions"><div class="pill">🇹🇭 บาท (THB)</div><div class="pill">🕛 เวลาไทย</div><div class="pill"><strong>● ระบบพร้อม</strong></div></div>
-  </div>
-
-  <section class="hero">
-    <div class="hero-art">👩🏻‍🎒</div>
-    <h1>ออกไป <em>เจอโลกกว้าง</em><br>กันเถอะ! ♡</h1>
-    <p>ตั๋วถูก ๆ พาเราไปเจอโมเมนต์ดี ๆ ได้เสมอ</p>
-    <div class="quote">“เที่ยวก่อน ค่อยกลับมาสู้ชีวิต...เอ๊ะ หรือเที่ยวแล้วไม่กลับ?” 😂</div>
-  </section>
-
-  <section class="searchbox">
-    <div class="tabs"><button class="tab active">ไป-กลับ</button><button class="tab">เที่ยวเดียว</button><button class="tab">หลายเมือง</button></div>
-    <div class="searchgrid">
-      <div class="field"><small>จาก</small><strong>✈ ไทย (ทุกสนามบิน)</strong></div>
-      <div class="field"><small>ไป</small><strong>🌏 ทุกที่ (Anywhere)</strong></div>
-      <div class="field"><small>ช่วงเวลา</small><strong>📅 ปี 2027</strong></div>
-      <div class="field"><small>กระเป๋า</small><strong>🧳 20 กก.</strong></div>
-      <button class="searchbtn" onclick="notify('กำลังหาดีลถูก ๆ ให้ค่ะ ✈️')">🔍 ค้นหาดีลเลย</button>
-    </div>
-    <div class="chips">
-      <span style="font-size:11px;color:#858b99;padding:6px">ประเทศยอดนิยม:</span>
-      <button class="chip">🇯🇵 ญี่ปุ่น</button><button class="chip">🇰🇷 เกาหลี</button><button class="chip">🇹🇼 ไต้หวัน</button><button class="chip">🇨🇳 จีน</button><button class="chip">🇻🇳 เวียดนาม</button><button class="chip">🇸🇬 สิงคโปร์</button><button class="chip">🇲🇾 มาเลเซีย</button><button class="chip">เพิ่มเติม ↓</button>
-    </div>
-  </section>
-
-  <div class="grid">
-    <div>
-      <section class="section">
-        <div class="sectionhead"><div><h2>🔥 ดีลเด็ดวันนี้</h2><p>ราคาที่มือไวเท่านั้นจะได้ไป 😎</p></div><span class="more">ดูทั้งหมด →</span></div>
-        <div class="deals">
-          <article class="deal"><div class="pic">🏯🌸</div><div class="dealbody"><div class="country">🇯🇵 ญี่ปุ่น</div><div class="city">โอซาก้า</div><div class="en">Osaka · 4 คืน</div><div class="price">฿6,890</div><span class="old">฿8,290</span> <span class="drop">↓ 17%</span><div class="air">✈ AirAsia X</div></div><button class="heart" onclick="notify('เก็บโอซาก้าไว้ในรายการแล้ว ♡')">♡</button></article>
-          <article class="deal"><div class="pic">🗼🌸</div><div class="dealbody"><div class="country">🇯🇵 ญี่ปุ่น</div><div class="city">โตเกียว</div><div class="en">Tokyo · 4 คืน</div><div class="price">฿7,290</div><span class="old">฿9,450</span> <span class="drop">↓ 23%</span><div class="air">✈ VietJet</div></div><button class="heart" onclick="notify('โตเกียวถูกใจเราแล้ว ♡')">♡</button></article>
-          <article class="deal"><div class="pic">🏙️🌙</div><div class="dealbody"><div class="country">🇰🇷 เกาหลี</div><div class="city">โซล</div><div class="en">Seoul · 4 คืน</div><div class="price">฿6,490</div><span class="old">฿8,290</span> <span class="drop">↓ 22%</span><div class="air">✈ Thai AirAsia</div></div><button class="heart" onclick="notify('โซลถูกเพิ่มเข้าลิสต์แล้ว ♡')">♡</button></article>
-          <article class="deal"><div class="pic">🏮🏙️</div><div class="dealbody"><div class="country">🇹🇼 ไต้หวัน</div><div class="city">ไทเป</div><div class="en">Taipei · 4 คืน</div><div class="price">฿5,290</div><span class="old">฿6,990</span> <span class="drop">↓ 24%</span><div class="air">✈ EVA Air</div></div><button class="heart" onclick="notify('ไทเปมาแล้ว! เก็บไว้ก่อน ♡')">♡</button></article>
+    <!-- HEADER / NAVBAR -->
+    <header class="mb-8">
+        <div class="nes-container is-rounded with-title">
+            <p class="title font-pixel text-xs text-red-600">STAGE 1-1: ANYWHERE 2027</p>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                    <h1 class="text-lg sm:text-2xl font-bold font-pixel text-slate-900 flex items-center gap-2">
+                        <i class="nes-icon coin is-medium"></i> ANYWHERE 2027
+                    </h1>
+                    <p class="text-xs text-slate-600 mt-2 font-bold">🎮 [QUEST] ระบบแอบส่องตั๋วเครื่องบินยามหัวหน้าเผลอ</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right text-xs hidden sm:block">
+                        <p class="text-slate-500 font-bold">LAST UPDATE:</p>
+                        <p class="font-pixel text-red-600">09:03 AM ⚡</p>
+                    </div>
+                    <button type="button" class="nes-btn is-primary flex items-center gap-2 text-xs">
+                        <i class="nes-icon star is-small"></i> กดสู้ชีวิต!
+                    </button>
+                </div>
+            </div>
         </div>
-      </section>
+    </header>
 
-      <section class="section" style="margin-top:14px">
-        <div class="sectionhead"><div><h2>💡 ไอเดียทริปตามงบ</h2><p>งบน้อยก็เที่ยวได้ ไม่ต้องขายไต 😂</p></div><span class="more">ดูทั้งหมด →</span></div>
-        <div class="idea-grid">
-          <div class="idea"><div class="emoji">🍜</div><b>ต่ำกว่า 5,000 บาท</b><small>ใกล้ ๆ ก็ฟินได้</small></div>
-          <div class="idea"><div class="emoji">⛩️</div><b>5,000 – 8,000 บาท</b><small>เมืองยอดนิยม</small></div>
-          <div class="idea"><div class="emoji">🗻</div><b>8,000 – 12,000 บาท</b><small>ออกไปไกลอีกนิด</small></div>
+    <!-- MAIN GRID -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow">
+
+        <!-- LEFT COLUMN (DEALS) -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <div class="nes-container with-title">
+                <p class="title font-pixel text-xs text-blue-600">🔥 TODAY'S DEALS (โปรพาหนีงาน)</p>
+
+                <!-- FLIGHT CARD 1 -->
+                <div class="nes-container is-rounded mb-6 bg-white">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="nes-badge"><span class="is-dark">AirAsia X</span></span>
+                                <span class="text-xs text-slate-600 font-bold">🧳 ฟรี 20 KG</span>
+                            </div>
+                            <div class="flex items-center justify-between my-3 max-w-xs">
+                                <div class="text-center">
+                                    <p class="font-pixel text-xl text-red-600">DMK</p>
+                                    <p class="text-[11px] text-slate-500 font-bold">ดอนเมือง</p>
+                                </div>
+                                <div class="flex-1 text-center px-2">
+                                    <p class="text-[10px] text-red-500 font-bold">▶▶ 4 DAYS ▶▶</p>
+                                    <p class="text-[10px] text-slate-400 font-bold">10-14 FEB 2027</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-pixel text-xl text-red-600">KIX</p>
+                                    <p class="text-[11px] text-slate-500 font-bold">โอซาก้า 🇯🇵</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                            <p class="text-[10px] text-slate-500 font-bold">ราคารวมไป-กลับ</p>
+                            <p class="text-xl font-bold font-pixel text-red-600 mb-2">฿6,400</p>
+                            <button type="button" class="nes-btn is-success text-xs w-full">กดจอง ↗</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLIGHT CARD 2 -->
+                <div class="nes-container is-rounded bg-white">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="nes-badge"><span class="is-warning">Thai Vietjet</span></span>
+                                <span class="text-xs text-slate-600 font-bold">🧳 ฟรี 20 KG</span>
+                            </div>
+                            <div class="flex items-center justify-between my-3 max-w-xs">
+                                <div class="text-center">
+                                    <p class="font-pixel text-xl">BKK</p>
+                                    <p class="text-[11px] text-slate-500 font-bold">สุวรรณภูมิ</p>
+                                </div>
+                                <div class="flex-1 text-center px-2">
+                                    <p class="text-[10px] text-blue-500 font-bold">▶▶ 5 DAYS ▶▶</p>
+                                    <p class="text-[10px] text-slate-400 font-bold">20-25 MAR 2027</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-pixel text-xl">TPE</p>
+                                    <p class="text-[11px] text-slate-500 font-bold">ไทเป 🇹🇼</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                            <p class="text-[10px] text-slate-500 font-bold">ราคารวมไป-กลับ</p>
+                            <p class="text-xl font-bold font-pixel text-slate-800 mb-2">฿4,850</p>
+                            <button type="button" class="nes-btn is-warning text-xs w-full">กดจอง ↗</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-      </section>
-    </div>
 
-    <aside class="sidebar">
-      <section class="update">
-        <h3>🔔 อัปเดตข้อมูล</h3>
-        <div class="last"><span class="dot"></span>ข้อมูลล่าสุด<br><b id="last">16 ก.ย. 2026 · 09:03 น.</b></div>
-        <button class="updatebtn" onclick="updateNow()">↻ อัปเดตตอนนี้</button>
-        <div class="next">🕛 อัปเดตอัตโนมัติทุกวัน<br><b>12:00 น. (เวลาไทย)</b></div>
-      </section>
+        <!-- RIGHT COLUMN (WATCHLIST & SETTINGS) -->
+        <div class="space-y-6">
 
-      <section class="update">
-        <h3>📅 ราคาถูกสุด ปี 2027</h3>
-        <div class="calendar">
-          <div class="month good"><b>ม.ค.</b><span>฿4.2k</span></div><div class="month"><b>ก.พ.</b><span>฿5.1k</span></div><div class="month good"><b>มี.ค.</b><span>฿4.8k</span></div>
-          <div class="month"><b>เม.ย.</b><span>฿6.2k</span></div><div class="month good"><b>พ.ค.</b><span>฿4.5k</span></div><div class="month"><b>มิ.ย.</b><span>฿5.0k</span></div>
-          <div class="month high"><b>ก.ค.</b><span>฿7.1k</span></div><div class="month high"><b>ส.ค.</b><span>฿6.8k</span></div><div class="month good"><b>ก.ย.</b><span>฿4.9k</span></div>
-          <div class="month"><b>ต.ค.</b><span>฿5.6k</span></div><div class="month good"><b>พ.ย.</b><span>฿4.3k</span></div><div class="month"><b>ธ.ค.</b><span>฿5.2k</span></div>
+            <!-- WATCHLIST -->
+            <div class="nes-container with-title">
+                <p class="title font-pixel text-xs text-red-500">❤️ WATCHLIST</p>
+
+                <div class="space-y-4">
+                    <div class="nes-container is-rounded bg-red-50 p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="font-bold text-xs">DMK ✈️ KIX</p>
+                            <span class="nes-text is-error text-[10px] font-bold">MATCH! 🔥</span>
+                        </div>
+                        <div class="flex justify-between items-end text-xs">
+                            <p class="text-slate-500 text-[10px] font-bold">TARGET: ≤ ฿7,000</p>
+                            <p class="font-pixel text-red-600 text-sm">฿6,400</p>
+                        </div>
+                    </div>
+
+                    <div class="nes-container is-rounded p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="font-bold text-xs">BKK ✈️ ICN</p>
+                            <span class="nes-text is-disabled text-[10px] font-bold">WAITING</span>
+                        </div>
+                        <div class="flex justify-between items-end text-xs">
+                            <p class="text-slate-500 text-[10px] font-bold">TARGET: ≤ ฿8,000</p>
+                            <p class="font-pixel text-slate-700 text-sm">฿9,200</p>
+                        </div>
+                    </div>
+
+                    <button type="button" class="nes-btn is-normal text-xs w-full">+ ADD ROUTE</button>
+                </div>
+            </div>
+
+            <!-- SETTINGS -->
+            <div class="nes-container with-title">
+                <p class="title font-pixel text-xs text-green-600">⚙️ AUTO TRACKER</p>
+
+                <div class="space-y-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold">AUTO BOT:</span>
+                        <span class="nes-text is-success font-bold">ONLINE</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-600 font-bold">
+                        <span>TIME:</span>
+                        <span>12:00 PM</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-600 font-bold">
+                        <span>TIMEZONE:</span>
+                        <span>THAILAND</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="legend">🟢 ถูกมาก　🟡 ปกติ　🔴 แพง</div>
-      </section>
 
-      <section class="update watch">
-        <h3>❤️ สิ่งที่อยากไป</h3>
-        <div class="watchrow"><div><div class="watchname">🇯🇵 โอซาก้า</div><div class="watchtarget">เป้าหมาย ≤ ฿7,000</div></div><div><div class="watchprice">฿6,890</div><div class="mini">ราคาลง!</div></div></div>
-        <div class="watchrow"><div><div class="watchname">🇯🇵 โตเกียว</div><div class="watchtarget">เป้าหมาย ≤ ฿8,000</div></div><div><div class="watchprice">฿7,290</div><div class="mini">เข้าเขตล่า!</div></div></div>
-        <div class="watchrow"><div><div class="watchname">🇹🇼 ไทเป</div><div class="watchtarget">เป้าหมาย ≤ ฿5,000</div></div><div><div class="watchprice">฿5,290</div><div class="mini" style="color:#b67a00">รออีกนิด</div></div></div>
-      </section>
-    </aside>
-  </div>
+    </main>
 
-  <div class="footer">“เก็บโมเมนต์ ไม่ใช่แค่ของฝาก” ♡　✈️　<span>ไปกันเถอะ!</span></div>
-</main>
-</div>
-<div id="toast" class="toast"></div>
-<script>
-function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',2400)}
-function updateNow(){
- const btn=document.querySelector('.updatebtn'); btn.textContent='⏳ กำลังเช็กดีล...'; btn.disabled=true;
- setTimeout(()=>{const d=new Date();document.getElementById('last').textContent=d.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+' น.';btn.textContent='✓ อัปเดตเรียบร้อย';btn.disabled=false;notify('เช็กข้อมูลเรียบร้อยแล้วค่ะ ✈️🌸')},1000)
-}
-</script>
+    <!-- FOOTER -->
+    <footer class="mt-8 text-center text-xs text-slate-500 py-4 font-bold">
+        <p>ANYWHERE 2027 🎮 GAME OVER FOR WORK, TIME TO FLY!</p>
+    </footer>
+
 </body>
 </html>
