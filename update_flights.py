@@ -12,7 +12,6 @@ headers = {
     "Content-Type": "application/json"
 }
 
-# รายการเส้นทางที่ต้องการส่องราคา
 routes = [
     {"origin": "DMK", "destination": "CNX", "country": "Thailand", "days": 3},
     {"origin": "DMK", "destination": "HKT", "country": "Thailand", "days": 3},
@@ -20,12 +19,14 @@ routes = [
     {"origin": "BKK", "destination": "TPE", "country": "Taiwan", "days": 5},
 ]
 
-# ค้นหาเที่ยวบินล่วงหน้าประมาณ 60 วัน
 dep_date = (datetime.now() + timedelta(days=60)).strftime("%Y-%m-%d")
 
 for r in routes:
     ret_date = (datetime.now() + timedelta(days=60 + r["days"])).strftime("%Y-%m-%d")
     url = f"https://serpapi.com/search.json?engine=google_flights&departure_id={r['origin']}&arrival_id={r['destination']}&outbound_date={dep_date}&return_date={ret_date}&currency=THB&hl=th&gl=th&api_key={SERPAPI_KEY}"
+    
+    # สร้างลิงก์ตรงไปยัง Google Flights สำหรับจองตั๋ว
+    booking_url = f"https://www.google.com/travel/flights?q=Flights%20to%20{r['destination']}%20from%20{r['origin']}%20on%20{dep_date}%20through%20{ret_date}"
     
     try:
         res = requests.get(url)
@@ -47,10 +48,10 @@ for r in routes:
                     "return_date": ret_date,
                     "trip_days": r["days"],
                     "total_price": price,
+                    "booking_url": booking_url,
                     "checked_at": datetime.now().isoformat()
                 }
                 
-                # ส่งข้อมูลเข้า Supabase Database
                 requests.post(f"{SUPABASE_URL}/rest/v1/flight_prices", headers=headers, json=payload)
                 print(f"✅ Updated {r['origin']} -> {r['destination']}: ฿{price}")
     except Exception as e:
