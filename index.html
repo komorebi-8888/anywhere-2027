@@ -37,7 +37,7 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-2">
                         <i class="nes-icon coin is-medium"></i> ANYWHERE 2027
                     </h1>
-                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (กดจองได้จริง!)</p>
+                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ</p>
                 </div>
                 <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                     <div class="text-right text-sm">
@@ -52,11 +52,11 @@
         </div>
     </header>
 
-    <!-- SEARCH BOX (กล่องค้นหาตั๋ว/กรองตั๋ว) -->
+    <!-- SEARCH BOX -->
     <section class="nes-container is-rounded mb-6 bg-white p-4">
         <p class="font-bold text-slate-800 text-base mb-2">🔍 ค้นหาเที่ยวบินที่ต้องการ</p>
         <div class="flex flex-col sm:flex-row gap-3">
-            <input type="text" id="search-input" oninput="filterFlights()" placeholder="พิมพ์ชื่อสนามบิน เช่น CNX, KIX, DMK, สุวรรณภูมิ..." class="nes-input text-sm font-medium flex-1">
+            <input type="text" id="search-input" oninput="filterFlights()" placeholder="พิมพ์ชื่อสนามบิน เช่น CNX, KIX, DMK..." class="nes-input text-sm font-medium flex-1">
             <button onclick="directGoogleSearch()" type="button" class="nes-btn is-warning font-bold text-sm whitespace-nowrap">
                 ค้นหาใน Google Flights ↗
             </button>
@@ -109,6 +109,7 @@
         <!-- RIGHT COLUMN -->
         <div class="space-y-6">
 
+            <!-- WATCHLIST -->
             <div class="nes-container with-title">
                 <p class="title text-base text-red-500 font-bold">❤️ รายการแอบเล็งไว้</p>
                 <div id="watchlist-container" class="space-y-3">
@@ -116,6 +117,7 @@
                 </div>
             </div>
 
+            <!-- SETTINGS -->
             <div class="nes-container with-title">
                 <p class="title text-base text-green-600 font-bold">⚙️ ระบบอัตโนมัติ</p>
                 <div class="space-y-3 text-sm">
@@ -167,19 +169,23 @@
 
                 renderFlights(allFlights);
 
+                // Render Watchlist
                 const watchContainer = document.getElementById('watchlist-container');
                 if (watchlist && watchlist.length > 0) {
                     watchContainer.innerHTML = watchlist.map(w => `
-                        <div class="nes-container is-rounded bg-red-50 p-3">
+                        <div class="nes-container is-rounded bg-red-50 p-3 relative group">
                             <div class="flex justify-between items-center mb-1">
                                 <p class="font-bold text-sm text-slate-800">${w.route}</p>
-                                <span class="nes-text is-error text-sm font-bold">TRACKING</span>
+                                <button onclick="deleteWatchlist(${w.id})" title="ลบรายการนี้" class="text-xs font-bold text-red-500 hover:text-red-700">✖</button>
                             </div>
                             <div class="flex justify-between items-end">
                                 <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿${Number(w.target_price).toLocaleString()}</p>
+                                <span class="nes-text is-error text-xs font-bold">TRACKING</span>
                             </div>
                         </div>
-                    `).join('') + `<button type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>`;
+                    `).join('') + `<button onclick="addNewWatchlist()" type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>`;
+                } else {
+                    watchContainer.innerHTML = `<button onclick="addNewWatchlist()" type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>`;
                 }
 
                 document.getElementById('stat-tracked-count').innerText = `${flights.length} เส้นทาง`;
@@ -196,6 +202,57 @@
                 console.error(err);
             } finally {
                 btn.innerText = 'สู้ชีวิต!';
+            }
+        }
+
+        // ฟังก์ชันเพิ่มรายการ Watchlist ใหม่ลง Supabase
+        async function addNewWatchlist() {
+            const routeName = prompt("พิมพ์ชื่อเส้นทาง (เช่น กรุงเทพฯ ✈️ โตเกียว):");
+            if (!routeName) return;
+
+            const origin = prompt("รหัสสนามบินต้นทาง (เช่น BKK หรือ DMK):", "BKK");
+            if (!origin) return;
+
+            const destination = prompt("รหัสสนามบินปลายทาง (เช่น NRT, KIX, CNX):", "NRT");
+            if (!destination) return;
+
+            const targetPrice = prompt("ราคาเป้าหมายสูงสุด (บาท):", "7000");
+            if (!targetPrice || isNaN(targetPrice)) {
+                alert("กรุณาระบุราคาเป้าหมายเป็นตัวเลขค่ะ");
+                return;
+            }
+
+            try {
+                const { error } = await supabaseClient.from('watchlist').insert([
+                    {
+                        route: routeName,
+                        origin: origin.toUpperCase(),
+                        destination: destination.toUpperCase(),
+                        target_price: parseFloat(targetPrice),
+                        active: true
+                    }
+                ]);
+
+                if (error) throw error;
+                alert("เพิ่มรายการใหม่เรียบร้อยแล้วค่ะ! 🎉");
+                loadDataFromSupabase();
+            } catch (err) {
+                console.error(err);
+                alert("เกิดข้อผิดพลาด ไม่สามารถเพิ่มข้อมูลได้ค่ะ");
+            }
+        }
+
+        // ฟังก์ชันลบรายการ Watchlist
+        async function deleteWatchlist(id) {
+            if (confirm("ต้องการลบรายการนี้ใช่ไหมคะ?")) {
+                try {
+                    const { error } = await supabaseClient.from('watchlist').delete().eq('id', id);
+                    if (error) throw error;
+                    loadDataFromSupabase();
+                } catch (err) {
+                    console.error(err);
+                    alert("เกิดข้อผิดพลาดในการลบข้อมูลค่ะ");
+                }
             }
         }
 
