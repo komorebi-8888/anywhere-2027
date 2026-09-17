@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         body {
@@ -40,14 +42,14 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-2">
                         <i class="nes-icon coin is-medium"></i> ANYWHERE 2027
                     </h1>
-                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (ในประเทศ & ต่างประเทศ)</p>
+                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (เชื่อม Supabase 🗄️)</p>
                 </div>
                 <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                     <div class="text-right text-sm">
                         <p class="text-slate-500 font-bold">อัปเดตล่าสุด:</p>
-                        <p class="font-bold text-red-600 text-base">วันนี้ 09:03 น. ⚡</p>
+                        <p id="last-updated-text" class="font-bold text-red-600 text-base">กำลังโหลด... ⚡</p>
                     </div>
-                    <button type="button" class="nes-btn is-primary font-bold text-base">
+                    <button id="btn-update-now" onclick="loadDataFromSupabase()" type="button" class="nes-btn is-primary font-bold text-base">
                         <i class="nes-icon star is-small"></i> สู้ชีวิต!
                     </button>
                 </div>
@@ -59,19 +61,19 @@
     <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="nes-container is-rounded p-3 text-center">
             <p class="text-sm text-slate-500 font-bold">🎯 เฝ้าส่องอยู่</p>
-            <p class="text-2xl font-black text-blue-600 mt-1">16 เส้นทาง</p>
+            <p id="stat-tracked-count" class="text-2xl font-black text-blue-600 mt-1">-</p>
         </div>
         <div class="nes-container is-rounded p-3 text-center">
             <p class="text-sm text-slate-500 font-bold">💸 ในประเทศถูกสุด</p>
-            <p class="text-2xl font-black text-emerald-600 mt-1">฿890</p>
+            <p id="stat-domestic-lowest" class="text-2xl font-black text-emerald-600 mt-1">-</p>
         </div>
         <div class="nes-container is-rounded p-3 text-center">
             <p class="text-sm text-slate-500 font-bold">🌏 ต่างประเทศถูกสุด</p>
-            <p class="text-2xl font-black text-red-600 mt-1">฿4,850</p>
+            <p id="stat-int-lowest" class="text-2xl font-black text-red-600 mt-1">-</p>
         </div>
         <div class="nes-container is-rounded p-3 text-center">
-            <p class="text-sm text-slate-500 font-bold">🔥 โปรโดนใจวันนี้</p>
-            <p class="text-2xl font-black text-amber-500 mt-1">4 โปรเด็ด</p>
+            <p class="text-sm text-slate-500 font-bold">🔥 สถานะระบบ</p>
+            <p class="text-2xl font-black text-amber-500 mt-1">LIVE 🟢</p>
         </div>
     </section>
 
@@ -84,135 +86,17 @@
             <!-- 🇹🇭 SECTION 1: ตั๋วในประเทศ -->
             <div class="nes-container with-title">
                 <p class="title text-base text-emerald-600 font-bold">🇹🇭 ตั๋วในประเทศ (หนีเที่ยวเสาร์-อาทิตย์)</p>
-
-                <!-- DOMESTIC CARD 1 -->
-                <div class="nes-container is-rounded mb-4 bg-white p-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-success font-bold">Nok Air</span></span>
-                                <span class="text-sm text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">ตั๋วถูกมาก!</span>
-                            </div>
-                            <div class="flex items-center justify-between my-2 max-w-xs">
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-emerald-600">DMK</p>
-                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
-                                </div>
-                                <div class="flex-1 text-center px-2">
-                                    <p class="text-sm text-emerald-600 font-bold">▶ 3 วัน ◀</p>
-                                    <p class="text-xs text-slate-500 font-medium">12-14 มี.ค. 2027</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-emerald-600">CNX</p>
-                                    <p class="text-sm text-slate-500 font-medium">เชียงใหม่ 🏔️</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                            <p class="text-3xl font-black text-emerald-600 mb-2">฿890</p>
-                            <button type="button" class="nes-btn is-success font-bold text-sm w-full">จองเลย ↗</button>
-                        </div>
-                    </div>
+                <div id="domestic-flights-container" class="space-y-4">
+                    <p class="text-sm text-slate-500 p-4">กำลังดึงข้อมูลตั๋วในประเทศ...</p>
                 </div>
-
-                <!-- DOMESTIC CARD 2 -->
-                <div class="nes-container is-rounded bg-white p-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-primary font-bold">Thai AirAsia</span></span>
-                            </div>
-                            <div class="flex items-center justify-between my-2 max-w-xs">
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-slate-800">DMK</p>
-                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
-                                </div>
-                                <div class="flex-1 text-center px-2">
-                                    <p class="text-sm text-blue-600 font-bold">▶ 3 วัน ◀</p>
-                                    <p class="text-xs text-slate-500 font-medium">23-25 เม.ย. 2027</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-slate-800">HKT</p>
-                                    <p class="text-sm text-slate-500 font-medium">ภูเก็ต 🌊</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                            <p class="text-3xl font-black text-slate-800 mb-2">฿1,150</p>
-                            <button type="button" class="nes-btn is-primary font-bold text-sm w-full">จองเลย ↗</button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <!-- 🌏 SECTION 2: ตั๋วต่างประเทศ -->
             <div class="nes-container with-title">
                 <p class="title text-base text-blue-600 font-bold">🌏 ตั๋วต่างประเทศ (หนีไปตั้งหลักต่างแดน)</p>
-
-                <!-- INT CARD 1 -->
-                <div class="nes-container is-rounded mb-4 bg-white p-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-dark font-bold">AirAsia X</span></span>
-                                <span class="text-sm text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">โปรตาแตก!</span>
-                            </div>
-                            <div class="flex items-center justify-between my-2 max-w-xs">
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-red-600">DMK</p>
-                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
-                                </div>
-                                <div class="flex-1 text-center px-2">
-                                    <p class="text-sm text-red-500 font-bold">▶ 4 วัน ◀</p>
-                                    <p class="text-xs text-slate-500 font-medium">10-14 ก.พ. 2027</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-red-600">KIX</p>
-                                    <p class="text-sm text-slate-500 font-medium">โอซาก้า 🇯🇵</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                            <p class="text-3xl font-black text-red-600 mb-2">฿6,400</p>
-                            <button type="button" class="nes-btn is-error font-bold text-sm w-full">จองเลย ↗</button>
-                        </div>
-                    </div>
+                <div id="int-flights-container" class="space-y-4">
+                    <p class="text-sm text-slate-500 p-4">กำลังดึงข้อมูลตั๋วต่างประเทศ...</p>
                 </div>
-
-                <!-- INT CARD 2 -->
-                <div class="nes-container is-rounded bg-white p-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1 w-full">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-warning font-bold">Thai Vietjet</span></span>
-                            </div>
-                            <div class="flex items-center justify-between my-2 max-w-xs">
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-slate-800">BKK</p>
-                                    <p class="text-sm text-slate-500 font-medium">สุวรรณภูมิ</p>
-                                </div>
-                                <div class="flex-1 text-center px-2">
-                                    <p class="text-sm text-blue-600 font-bold">▶ 5 วัน ◀</p>
-                                    <p class="text-xs text-slate-500 font-medium">20-25 มี.ค. 2027</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-black text-slate-800">TPE</p>
-                                    <p class="text-sm text-slate-500 font-medium">ไทเป 🇹🇼</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                            <p class="text-3xl font-black text-slate-800 mb-2">฿4,850</p>
-                            <button type="button" class="nes-btn is-warning font-bold text-sm w-full">จองเลย ↗</button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -223,71 +107,26 @@
             <!-- WATCHLIST -->
             <div class="nes-container with-title">
                 <p class="title text-base text-red-500 font-bold">❤️ รายการแอบเล็งไว้</p>
-
-                <div class="space-y-3">
-                    <div class="nes-container is-rounded bg-emerald-50 p-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ เชียงใหม่</p>
-                            <span class="nes-text is-success text-sm font-bold">ถูกเวอร์! 🔥</span>
-                        </div>
-                        <div class="flex justify-between items-end">
-                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿1,200</p>
-                            <p class="font-black text-emerald-600 text-lg">฿890</p>
-                        </div>
-                    </div>
-
-                    <div class="nes-container is-rounded bg-red-50 p-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ โอซาก้า</p>
-                            <span class="nes-text is-error text-sm font-bold">ตรงเป้า! 🔥</span>
-                        </div>
-                        <div class="flex justify-between items-end">
-                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿7,000</p>
-                            <p class="font-black text-red-600 text-lg">฿6,400</p>
-                        </div>
-                    </div>
-
-                    <div class="nes-container is-rounded p-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ โซล</p>
-                            <span class="nes-text is-disabled text-sm font-medium">รอโปรต่อไป</span>
-                        </div>
-                        <div class="flex justify-between items-end">
-                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿8,000</p>
-                            <p class="font-black text-slate-700 text-lg">฿9,200</p>
-                        </div>
-                    </div>
-
-                    <button type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>
-                </div>
-            </div>
-
-            <!-- LIVE ACTIVITY LOG -->
-            <div class="nes-container with-title">
-                <p class="title text-base text-blue-500 font-bold">📜 บันทึกเรดาร์</p>
-                <div class="text-xs text-slate-600 space-y-2 font-medium">
-                    <p><span class="text-emerald-600 font-bold">[09:03]</span> เจอDMK ➔ CNX ลดเหลือ ฿890!</p>
-                    <p><span class="text-red-500 font-bold">[08:45]</span> เจอ DMK ➔ KIX ลดเหลือ ฿6,400</p>
-                    <p><span class="text-slate-400 font-bold">[00:00]</span> บอทรีเซ็ตระบบค้นหาประจำวัน</p>
+                <div id="watchlist-container" class="space-y-3">
+                    <p class="text-sm text-slate-500">กำลังโหลด Watchlist...</p>
                 </div>
             </div>
 
             <!-- SETTINGS -->
             <div class="nes-container with-title">
                 <p class="title text-base text-green-600 font-bold">⚙️ ระบบอัตโนมัติ</p>
-
                 <div class="space-y-3 text-sm">
                     <div class="flex justify-between items-center">
                         <span class="font-bold text-slate-700">สถานะบอท:</span>
-                        <span class="nes-text is-success font-bold">เปิดทำงาน</span>
+                        <span id="setting-auto" class="nes-text is-success font-bold">เปิดทำงาน</span>
                     </div>
                     <div class="flex justify-between items-center text-slate-600 font-medium">
                         <span>เวลาดึงราคา:</span>
-                        <span class="font-bold text-slate-800">12:00 น.</span>
+                        <span id="setting-time" class="font-bold text-slate-800">12:00 น.</span>
                     </div>
                     <div class="flex justify-between items-center text-slate-600 font-medium">
                         <span>เขตเวลา:</span>
-                        <span class="font-bold text-slate-800">ประเทศไทย</span>
+                        <span id="setting-tz" class="font-bold text-slate-800">Asia/Bangkok</span>
                     </div>
                 </div>
             </div>
@@ -298,8 +137,160 @@
 
     <!-- FOOTER -->
     <footer class="mt-8 text-center text-sm text-slate-500 py-4 font-bold">
-        <p>ANYWHERE 2027 🎮 ได้เวลาพักงาน แล้วออกไปบิน!</p>
+        <p>ANYWHERE 2027 🎮 Connected to Supabase Database!</p>
     </footer>
 
+    <!-- SUPABASE INTEGRATION SCRIPT -->
+    <script>
+        // Supabase Client Setup
+        const SUPABASE_URL = 'https://dmqcynyakrkyraopupiw.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_7H5HjSYGwpjV6jEIk24p9A_Lesrx7JS';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Fetch Data Function
+        async function loadDataFromSupabase() {
+            const btn = document.getElementById('btn-update-now');
+            btn.innerText = 'กำลังโหลด...';
+
+            try {
+                // 1. ดึงตั๋วเครื่องบิน
+                const { data: flights, error: flightError } = await supabaseClient
+                    .from('flight_prices')
+                    .select('*')
+                    .order('total_price', { ascending: true });
+
+                if (flightError) throw flightError;
+
+                // 2. ดึง Watchlist
+                const { data: watchlist, error: watchError } = await supabaseClient
+                    .from('watchlist')
+                    .select('*');
+
+                if (watchError) throw watchError;
+
+                // 3. ดึง Settings
+                const { data: settings } = await supabaseClient
+                    .from('tracker_settings')
+                    .select('*')
+                    .limit(1)
+                    .single();
+
+                // แสดงผลตั๋วในประเทศ
+                const domesticContainer = document.getElementById('domestic-flights-container');
+                const domesticFlights = flights.filter(f => f.destination_country === 'Thailand');
+                
+                if (domesticFlights.length > 0) {
+                    domesticContainer.innerHTML = domesticFlights.map(f => `
+                        <div class="nes-container is-rounded bg-white p-4">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div class="flex-1 w-full">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="nes-badge"><span class="is-success font-bold">${f.airline}</span></span>
+                                    </div>
+                                    <div class="flex items-center justify-between my-2 max-w-xs">
+                                        <div class="text-center">
+                                            <p class="text-2xl font-black text-emerald-600">${f.origin}</p>
+                                        </div>
+                                        <div class="flex-1 text-center px-2">
+                                            <p class="text-sm text-emerald-600 font-bold">▶ ${f.trip_days} วัน ◀</p>
+                                            <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-2xl font-black text-emerald-600">${f.destination}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                                    <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                                    <p class="text-3xl font-black text-emerald-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
+                                    <button type="button" class="nes-btn is-success font-bold text-sm w-full">จองเลย ↗</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('stat-domestic-lowest').innerText = `฿${Number(domesticFlights[0].total_price).toLocaleString()}`;
+                } else {
+                    domesticContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วในประเทศ</p>`;
+                }
+
+                // แสดงผลตั๋วต่างประเทศ
+                const intContainer = document.getElementById('int-flights-container');
+                const intFlights = flights.filter(f => f.destination_country !== 'Thailand');
+                
+                if (intFlights.length > 0) {
+                    intContainer.innerHTML = intFlights.map(f => `
+                        <div class="nes-container is-rounded bg-white p-4">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div class="flex-1 w-full">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="nes-badge"><span class="is-dark font-bold">${f.airline}</span></span>
+                                    </div>
+                                    <div class="flex items-center justify-between my-2 max-w-xs">
+                                        <div class="text-center">
+                                            <p class="text-2xl font-black text-red-600">${f.origin}</p>
+                                        </div>
+                                        <div class="flex-1 text-center px-2">
+                                            <p class="text-sm text-red-500 font-bold">▶ ${f.trip_days} วัน ◀</p>
+                                            <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-2xl font-black text-red-600">${f.destination}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                                    <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                                    <p class="text-3xl font-black text-red-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
+                                    <button type="button" class="nes-btn is-error font-bold text-sm w-full">จองเลย ↗</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('stat-int-lowest').innerText = `฿${Number(intFlights[0].total_price).toLocaleString()}`;
+                } else {
+                    intContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วต่างประเทศ</p>`;
+                }
+
+                // แสดงผล Watchlist
+                const watchContainer = document.getElementById('watchlist-container');
+                if (watchlist && watchlist.length > 0) {
+                    watchContainer.innerHTML = watchlist.map(w => `
+                        <div class="nes-container is-rounded bg-red-50 p-3">
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="font-bold text-sm text-slate-800">${w.route}</p>
+                                <span class="nes-text is-error text-sm font-bold">TRACKING</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿${Number(w.target_price).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    `).join('') + `<button type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>`;
+                }
+
+                // สถิติจำนวนเส้นทาง
+                document.getElementById('stat-tracked-count').innerText = `${flights.length} เส้นทาง`;
+
+                // อัปเดตเวลาล่าสุด
+                const now = new Date();
+                document.getElementById('last-updated-text').innerText = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} น. ⚡`;
+
+                // อัปเดต Settings
+                if (settings) {
+                    document.getElementById('setting-auto').innerText = settings.auto_update ? 'เปิดทำงาน' : 'ปิด';
+                    document.getElementById('setting-time').innerText = `${settings.update_time} น.`;
+                    document.getElementById('setting-tz').innerText = settings.timezone;
+                }
+
+            } catch (err) {
+                console.error('Error fetching from Supabase:', err);
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ Supabase!');
+            } finally {
+                btn.innerText = 'สู้ชีวิต!';
+            }
+        }
+
+        // โหลดข้อมูลอัตโนมัติเมื่อเปิดหน้าเว็บ
+        window.addEventListener('DOMContentLoaded', loadDataFromSupabase);
+    </script>
 </body>
 </html>
