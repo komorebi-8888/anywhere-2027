@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANYWHERE 2027 🎮 | เรดาร์ตั๋วบิน 8-Bit</title>
-    <!-- NES.css CDN -->
     <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -42,7 +37,7 @@
                     <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-2">
                         <i class="nes-icon coin is-medium"></i> ANYWHERE 2027
                     </h1>
-                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (เชื่อม Supabase 🗄️)</p>
+                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (กดจองได้จริง!)</p>
                 </div>
                 <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                     <div class="text-right text-sm">
@@ -56,6 +51,17 @@
             </div>
         </div>
     </header>
+
+    <!-- SEARCH BOX (กล่องค้นหาตั๋ว/กรองตั๋ว) -->
+    <section class="nes-container is-rounded mb-6 bg-white p-4">
+        <p class="font-bold text-slate-800 text-base mb-2">🔍 ค้นหาเที่ยวบินที่ต้องการ</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <input type="text" id="search-input" oninput="filterFlights()" placeholder="พิมพ์ชื่อสนามบิน เช่น CNX, KIX, DMK, สุวรรณภูมิ..." class="nes-input text-sm font-medium flex-1">
+            <button onclick="directGoogleSearch()" type="button" class="nes-btn is-warning font-bold text-sm whitespace-nowrap">
+                ค้นหาใน Google Flights ↗
+            </button>
+        </div>
+    </section>
 
     <!-- STATS DASHBOARD -->
     <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -80,7 +86,6 @@
     <!-- MAIN GRID -->
     <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow">
 
-        <!-- LEFT COLUMN (FLIGHT DEALS) -->
         <div class="lg:col-span-2 space-y-6">
 
             <!-- 🇹🇭 SECTION 1: ตั๋วในประเทศ -->
@@ -101,10 +106,9 @@
 
         </div>
 
-        <!-- RIGHT COLUMN (WATCHLIST & SETTINGS) -->
+        <!-- RIGHT COLUMN -->
         <div class="space-y-6">
 
-            <!-- WATCHLIST -->
             <div class="nes-container with-title">
                 <p class="title text-base text-red-500 font-bold">❤️ รายการแอบเล็งไว้</p>
                 <div id="watchlist-container" class="space-y-3">
@@ -112,7 +116,6 @@
                 </div>
             </div>
 
-            <!-- SETTINGS -->
             <div class="nes-container with-title">
                 <p class="title text-base text-green-600 font-bold">⚙️ ระบบอัตโนมัติ</p>
                 <div class="space-y-3 text-sm">
@@ -135,123 +138,35 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="mt-8 text-center text-sm text-slate-500 py-4 font-bold">
-        <p>ANYWHERE 2027 🎮 Connected to Supabase Database!</p>
+        <p>ANYWHERE 2027 🎮 ได้เวลาพักงาน แล้วออกไปบิน!</p>
     </footer>
 
-    <!-- SUPABASE INTEGRATION SCRIPT -->
     <script>
-        // Supabase Client Setup
         const SUPABASE_URL = 'https://dmqcynyakrkyraopupiw.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_7H5HjSYGwpjV6jEIk24p9A_Lesrx7JS';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Fetch Data Function
+        let allFlights = [];
+
         async function loadDataFromSupabase() {
             const btn = document.getElementById('btn-update-now');
             btn.innerText = 'กำลังโหลด...';
 
             try {
-                // 1. ดึงตั๋วเครื่องบิน
                 const { data: flights, error: flightError } = await supabaseClient
                     .from('flight_prices')
                     .select('*')
                     .order('total_price', { ascending: true });
 
                 if (flightError) throw flightError;
+                allFlights = flights;
 
-                // 2. ดึง Watchlist
-                const { data: watchlist, error: watchError } = await supabaseClient
-                    .from('watchlist')
-                    .select('*');
+                const { data: watchlist } = await supabaseClient.from('watchlist').select('*');
+                const { data: settings } = await supabaseClient.from('tracker_settings').select('*').limit(1).single();
 
-                if (watchError) throw watchError;
+                renderFlights(allFlights);
 
-                // 3. ดึง Settings
-                const { data: settings } = await supabaseClient
-                    .from('tracker_settings')
-                    .select('*')
-                    .limit(1)
-                    .single();
-
-                // แสดงผลตั๋วในประเทศ
-                const domesticContainer = document.getElementById('domestic-flights-container');
-                const domesticFlights = flights.filter(f => f.destination_country === 'Thailand');
-                
-                if (domesticFlights.length > 0) {
-                    domesticContainer.innerHTML = domesticFlights.map(f => `
-                        <div class="nes-container is-rounded bg-white p-4">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                <div class="flex-1 w-full">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="nes-badge"><span class="is-success font-bold">${f.airline}</span></span>
-                                    </div>
-                                    <div class="flex items-center justify-between my-2 max-w-xs">
-                                        <div class="text-center">
-                                            <p class="text-2xl font-black text-emerald-600">${f.origin}</p>
-                                        </div>
-                                        <div class="flex-1 text-center px-2">
-                                            <p class="text-sm text-emerald-600 font-bold">▶ ${f.trip_days} วัน ◀</p>
-                                            <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="text-2xl font-black text-emerald-600">${f.destination}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                                    <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                                    <p class="text-3xl font-black text-emerald-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
-                                    <button type="button" class="nes-btn is-success font-bold text-sm w-full">จองเลย ↗</button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                    document.getElementById('stat-domestic-lowest').innerText = `฿${Number(domesticFlights[0].total_price).toLocaleString()}`;
-                } else {
-                    domesticContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วในประเทศ</p>`;
-                }
-
-                // แสดงผลตั๋วต่างประเทศ
-                const intContainer = document.getElementById('int-flights-container');
-                const intFlights = flights.filter(f => f.destination_country !== 'Thailand');
-                
-                if (intFlights.length > 0) {
-                    intContainer.innerHTML = intFlights.map(f => `
-                        <div class="nes-container is-rounded bg-white p-4">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                <div class="flex-1 w-full">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="nes-badge"><span class="is-dark font-bold">${f.airline}</span></span>
-                                    </div>
-                                    <div class="flex items-center justify-between my-2 max-w-xs">
-                                        <div class="text-center">
-                                            <p class="text-2xl font-black text-red-600">${f.origin}</p>
-                                        </div>
-                                        <div class="flex-1 text-center px-2">
-                                            <p class="text-sm text-red-500 font-bold">▶ ${f.trip_days} วัน ◀</p>
-                                            <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="text-2xl font-black text-red-600">${f.destination}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                                    <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
-                                    <p class="text-3xl font-black text-red-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
-                                    <button type="button" class="nes-btn is-error font-bold text-sm w-full">จองเลย ↗</button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                    document.getElementById('stat-int-lowest').innerText = `฿${Number(intFlights[0].total_price).toLocaleString()}`;
-                } else {
-                    intContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วต่างประเทศ</p>`;
-                }
-
-                // แสดงผล Watchlist
                 const watchContainer = document.getElementById('watchlist-container');
                 if (watchlist && watchlist.length > 0) {
                     watchContainer.innerHTML = watchlist.map(w => `
@@ -267,14 +182,10 @@
                     `).join('') + `<button type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>`;
                 }
 
-                // สถิติจำนวนเส้นทาง
                 document.getElementById('stat-tracked-count').innerText = `${flights.length} เส้นทาง`;
-
-                // อัปเดตเวลาล่าสุด
                 const now = new Date();
                 document.getElementById('last-updated-text').innerText = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} น. ⚡`;
 
-                // อัปเดต Settings
                 if (settings) {
                     document.getElementById('setting-auto').innerText = settings.auto_update ? 'เปิดทำงาน' : 'ปิด';
                     document.getElementById('setting-time').innerText = `${settings.update_time} น.`;
@@ -282,14 +193,112 @@
                 }
 
             } catch (err) {
-                console.error('Error fetching from Supabase:', err);
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ Supabase!');
+                console.error(err);
             } finally {
                 btn.innerText = 'สู้ชีวิต!';
             }
         }
 
-        // โหลดข้อมูลอัตโนมัติเมื่อเปิดหน้าเว็บ
+        function renderFlights(flights) {
+            const domesticContainer = document.getElementById('domestic-flights-container');
+            const domesticFlights = flights.filter(f => f.destination_country === 'Thailand');
+            
+            if (domesticFlights.length > 0) {
+                domesticContainer.innerHTML = domesticFlights.map(f => {
+                    const bookUrl = f.booking_url || `https://www.google.com/travel/flights?q=Flights%20to%20${f.destination}%20from%20${f.origin}`;
+                    return `
+                    <div class="nes-container is-rounded bg-white p-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div class="flex-1 w-full">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="nes-badge"><span class="is-success font-bold">${f.airline}</span></span>
+                                </div>
+                                <div class="flex items-center justify-between my-2 max-w-xs">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-black text-emerald-600">${f.origin}</p>
+                                    </div>
+                                    <div class="flex-1 text-center px-2">
+                                        <p class="text-sm text-emerald-600 font-bold">▶ ${f.trip_days} วัน ◀</p>
+                                        <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-black text-emerald-600">${f.destination}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                                <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                                <p class="text-3xl font-black text-emerald-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
+                                <a href="${bookUrl}" target="_blank" class="nes-btn is-success font-bold text-sm w-full block text-center">จองเลย ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+                document.getElementById('stat-domestic-lowest').innerText = `฿${Number(domesticFlights[0].total_price).toLocaleString()}`;
+            } else {
+                domesticContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วที่ค้นหา</p>`;
+            }
+
+            const intContainer = document.getElementById('int-flights-container');
+            const intFlights = flights.filter(f => f.destination_country !== 'Thailand');
+            
+            if (intFlights.length > 0) {
+                intContainer.innerHTML = intFlights.map(f => {
+                    const bookUrl = f.booking_url || `https://www.google.com/travel/flights?q=Flights%20to%20${f.destination}%20from%20${f.origin}`;
+                    return `
+                    <div class="nes-container is-rounded bg-white p-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div class="flex-1 w-full">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="nes-badge"><span class="is-dark font-bold">${f.airline}</span></span>
+                                </div>
+                                <div class="flex items-center justify-between my-2 max-w-xs">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-black text-red-600">${f.origin}</p>
+                                    </div>
+                                    <div class="flex-1 text-center px-2">
+                                        <p class="text-sm text-red-500 font-bold">▶ ${f.trip_days} วัน ◀</p>
+                                        <p class="text-xs text-slate-500 font-medium">${f.departure_date} - ${f.return_date}</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-black text-red-600">${f.destination}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                                <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                                <p class="text-3xl font-black text-red-600 mb-2">฿${Number(f.total_price).toLocaleString()}</p>
+                                <a href="${bookUrl}" target="_blank" class="nes-btn is-error font-bold text-sm w-full block text-center">จองเลย ↗</a>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+                document.getElementById('stat-int-lowest').innerText = `฿${Number(intFlights[0].total_price).toLocaleString()}`;
+            } else {
+                intContainer.innerHTML = `<p class="text-sm text-slate-500 p-4">ไม่พบตั๋วที่ค้นหา</p>`;
+            }
+        }
+
+        function filterFlights() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allFlights.filter(f => 
+                f.origin.toLowerCase().includes(query) || 
+                f.destination.toLowerCase().includes(query) || 
+                f.airline.toLowerCase().includes(query) ||
+                f.destination_country.toLowerCase().includes(query)
+            );
+            renderFlights(filtered);
+        }
+
+        function directGoogleSearch() {
+            const query = document.getElementById('search-input').value.trim();
+            if (query) {
+                window.open(`https://www.google.com/travel/flights?q=Flights%20to%20${encodeURIComponent(query)}`, '_blank');
+            } else {
+                window.open(`https://www.google.com/travel/flights`, '_blank');
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', loadDataFromSupabase);
     </script>
 </body>
