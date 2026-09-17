@@ -3,124 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANYWHERE 2027 🎮 | 8-BIT FLIGHT RADAR</title>
+    <title>ANYWHERE 2027 🎮 | เรดาร์ตั๋วบิน 8-Bit</title>
     <!-- NES.css CDN -->
     <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
-    <!-- Tailwind CSS (สำหรับจัด Grid Layout) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Press Start 2P & Prompt -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Prompt', 'Press Start 2P', sans-serif;
-            background-color: #fafafa;
-            color: #212529;
-            image-rendering: pixelated;
+            font-family: 'Prompt', sans-serif;
+            background-color: #f4f4f5;
+            color: #18181b;
+            font-size: 16px;
         }
-        .font-pixel {
-            font-family: 'Press Start 2P', cursive;
+        .nes-container {
+            background-color: #ffffff !important;
         }
         .nes-container.with-title > .title {
-            background-color: #fafafa;
+            background-color: #f4f4f5 !important;
+            font-weight: 700 !important;
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 min-h-screen flex flex-col max-w-6xl mx-auto">
+<body class="p-4 sm:p-6 min-h-screen flex flex-col max-w-6xl mx-auto">
 
     <!-- HEADER / NAVBAR -->
-    <header class="mb-8">
+    <header class="mb-6">
         <div class="nes-container is-rounded with-title">
-            <p class="title font-pixel text-xs text-red-600">STAGE 1-1: ANYWHERE 2027</p>
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="title text-base text-red-600 font-bold">STAGE 1-1: ANYWHERE 2027</p>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 class="text-lg sm:text-2xl font-bold font-pixel text-slate-900 flex items-center gap-2">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-2">
                         <i class="nes-icon coin is-medium"></i> ANYWHERE 2027
                     </h1>
-                    <p class="text-xs text-slate-600 mt-2 font-bold">🎮 [QUEST] ระบบแอบส่องตั๋วเครื่องบินยามหัวหน้าเผลอ</p>
+                    <p class="text-base text-slate-600 font-medium mt-1">🎮 ระบบแอบส่องตั๋วถูกยามหัวหน้าเผลอ (ในประเทศ & ต่างประเทศ)</p>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="text-right text-xs hidden sm:block">
-                        <p class="text-slate-500 font-bold">LAST UPDATE:</p>
-                        <p class="font-pixel text-red-600">09:03 AM ⚡</p>
+                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                    <div class="text-right text-sm">
+                        <p class="text-slate-500 font-bold">อัปเดตล่าสุด:</p>
+                        <p class="font-bold text-red-600 text-base">วันนี้ 09:03 น. ⚡</p>
                     </div>
-                    <button type="button" class="nes-btn is-primary flex items-center gap-2 text-xs">
-                        <i class="nes-icon star is-small"></i> กดสู้ชีวิต!
+                    <button type="button" class="nes-btn is-primary font-bold text-base">
+                        <i class="nes-icon star is-small"></i> สู้ชีวิต!
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN GRID -->
-    <main class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow">
+    <!-- STATS DASHBOARD -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="nes-container is-rounded p-3 text-center">
+            <p class="text-sm text-slate-500 font-bold">🎯 เฝ้าส่องอยู่</p>
+            <p class="text-2xl font-black text-blue-600 mt-1">16 เส้นทาง</p>
+        </div>
+        <div class="nes-container is-rounded p-3 text-center">
+            <p class="text-sm text-slate-500 font-bold">💸 ในประเทศถูกสุด</p>
+            <p class="text-2xl font-black text-emerald-600 mt-1">฿890</p>
+        </div>
+        <div class="nes-container is-rounded p-3 text-center">
+            <p class="text-sm text-slate-500 font-bold">🌏 ต่างประเทศถูกสุด</p>
+            <p class="text-2xl font-black text-red-600 mt-1">฿4,850</p>
+        </div>
+        <div class="nes-container is-rounded p-3 text-center">
+            <p class="text-sm text-slate-500 font-bold">🔥 โปรโดนใจวันนี้</p>
+            <p class="text-2xl font-black text-amber-500 mt-1">4 โปรเด็ด</p>
+        </div>
+    </section>
 
-        <!-- LEFT COLUMN (DEALS) -->
+    <!-- MAIN GRID -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow">
+
+        <!-- LEFT COLUMN (FLIGHT DEALS) -->
         <div class="lg:col-span-2 space-y-6">
 
+            <!-- 🇹🇭 SECTION 1: ตั๋วในประเทศ -->
             <div class="nes-container with-title">
-                <p class="title font-pixel text-xs text-blue-600">🔥 TODAY'S DEALS (โปรพาหนีงาน)</p>
+                <p class="title text-base text-emerald-600 font-bold">🇹🇭 ตั๋วในประเทศ (หนีเที่ยวเสาร์-อาทิตย์)</p>
 
-                <!-- FLIGHT CARD 1 -->
-                <div class="nes-container is-rounded mb-6 bg-white">
+                <!-- DOMESTIC CARD 1 -->
+                <div class="nes-container is-rounded mb-4 bg-white p-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1">
+                        <div class="flex-1 w-full">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-dark">AirAsia X</span></span>
-                                <span class="text-xs text-slate-600 font-bold">🧳 ฟรี 20 KG</span>
+                                <span class="nes-badge"><span class="is-success font-bold">Nok Air</span></span>
+                                <span class="text-sm text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">ตั๋วถูกมาก!</span>
                             </div>
-                            <div class="flex items-center justify-between my-3 max-w-xs">
+                            <div class="flex items-center justify-between my-2 max-w-xs">
                                 <div class="text-center">
-                                    <p class="font-pixel text-xl text-red-600">DMK</p>
-                                    <p class="text-[11px] text-slate-500 font-bold">ดอนเมือง</p>
+                                    <p class="text-2xl font-black text-emerald-600">DMK</p>
+                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
                                 </div>
                                 <div class="flex-1 text-center px-2">
-                                    <p class="text-[10px] text-red-500 font-bold">▶▶ 4 DAYS ▶▶</p>
-                                    <p class="text-[10px] text-slate-400 font-bold">10-14 FEB 2027</p>
+                                    <p class="text-sm text-emerald-600 font-bold">▶ 3 วัน ◀</p>
+                                    <p class="text-xs text-slate-500 font-medium">12-14 มี.ค. 2027</p>
                                 </div>
                                 <div class="text-center">
-                                    <p class="font-pixel text-xl text-red-600">KIX</p>
-                                    <p class="text-[11px] text-slate-500 font-bold">โอซาก้า 🇯🇵</p>
+                                    <p class="text-2xl font-black text-emerald-600">CNX</p>
+                                    <p class="text-sm text-slate-500 font-medium">เชียงใหม่ 🏔️</p>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-[10px] text-slate-500 font-bold">ราคารวมไป-กลับ</p>
-                            <p class="text-xl font-bold font-pixel text-red-600 mb-2">฿6,400</p>
-                            <button type="button" class="nes-btn is-success text-xs w-full">กดจอง ↗</button>
+                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                            <p class="text-3xl font-black text-emerald-600 mb-2">฿890</p>
+                            <button type="button" class="nes-btn is-success font-bold text-sm w-full">จองเลย ↗</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- FLIGHT CARD 2 -->
-                <div class="nes-container is-rounded bg-white">
+                <!-- DOMESTIC CARD 2 -->
+                <div class="nes-container is-rounded bg-white p-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div class="flex-1">
+                        <div class="flex-1 w-full">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="nes-badge"><span class="is-warning">Thai Vietjet</span></span>
-                                <span class="text-xs text-slate-600 font-bold">🧳 ฟรี 20 KG</span>
+                                <span class="nes-badge"><span class="is-primary font-bold">Thai AirAsia</span></span>
                             </div>
-                            <div class="flex items-center justify-between my-3 max-w-xs">
+                            <div class="flex items-center justify-between my-2 max-w-xs">
                                 <div class="text-center">
-                                    <p class="font-pixel text-xl">BKK</p>
-                                    <p class="text-[11px] text-slate-500 font-bold">สุวรรณภูมิ</p>
+                                    <p class="text-2xl font-black text-slate-800">DMK</p>
+                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
                                 </div>
                                 <div class="flex-1 text-center px-2">
-                                    <p class="text-[10px] text-blue-500 font-bold">▶▶ 5 DAYS ▶▶</p>
-                                    <p class="text-[10px] text-slate-400 font-bold">20-25 MAR 2027</p>
+                                    <p class="text-sm text-blue-600 font-bold">▶ 3 วัน ◀</p>
+                                    <p class="text-xs text-slate-500 font-medium">23-25 เม.ย. 2027</p>
                                 </div>
                                 <div class="text-center">
-                                    <p class="font-pixel text-xl">TPE</p>
-                                    <p class="text-[11px] text-slate-500 font-bold">ไทเป 🇹🇼</p>
+                                    <p class="text-2xl font-black text-slate-800">HKT</p>
+                                    <p class="text-sm text-slate-500 font-medium">ภูเก็ต 🌊</p>
                                 </div>
                             </div>
                         </div>
                         <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
-                            <p class="text-[10px] text-slate-500 font-bold">ราคารวมไป-กลับ</p>
-                            <p class="text-xl font-bold font-pixel text-slate-800 mb-2">฿4,850</p>
-                            <button type="button" class="nes-btn is-warning text-xs w-full">กดจอง ↗</button>
+                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                            <p class="text-3xl font-black text-slate-800 mb-2">฿1,150</p>
+                            <button type="button" class="nes-btn is-primary font-bold text-sm w-full">จองเลย ↗</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 🌏 SECTION 2: ตั๋วต่างประเทศ -->
+            <div class="nes-container with-title">
+                <p class="title text-base text-blue-600 font-bold">🌏 ตั๋วต่างประเทศ (หนีไปตั้งหลักต่างแดน)</p>
+
+                <!-- INT CARD 1 -->
+                <div class="nes-container is-rounded mb-4 bg-white p-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="nes-badge"><span class="is-dark font-bold">AirAsia X</span></span>
+                                <span class="text-sm text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded">โปรตาแตก!</span>
+                            </div>
+                            <div class="flex items-center justify-between my-2 max-w-xs">
+                                <div class="text-center">
+                                    <p class="text-2xl font-black text-red-600">DMK</p>
+                                    <p class="text-sm text-slate-500 font-medium">ดอนเมือง</p>
+                                </div>
+                                <div class="flex-1 text-center px-2">
+                                    <p class="text-sm text-red-500 font-bold">▶ 4 วัน ◀</p>
+                                    <p class="text-xs text-slate-500 font-medium">10-14 ก.พ. 2027</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-black text-red-600">KIX</p>
+                                    <p class="text-sm text-slate-500 font-medium">โอซาก้า 🇯🇵</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                            <p class="text-3xl font-black text-red-600 mb-2">฿6,400</p>
+                            <button type="button" class="nes-btn is-error font-bold text-sm w-full">จองเลย ↗</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INT CARD 2 -->
+                <div class="nes-container is-rounded bg-white p-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex-1 w-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="nes-badge"><span class="is-warning font-bold">Thai Vietjet</span></span>
+                            </div>
+                            <div class="flex items-center justify-between my-2 max-w-xs">
+                                <div class="text-center">
+                                    <p class="text-2xl font-black text-slate-800">BKK</p>
+                                    <p class="text-sm text-slate-500 font-medium">สุวรรณภูมิ</p>
+                                </div>
+                                <div class="flex-1 text-center px-2">
+                                    <p class="text-sm text-blue-600 font-bold">▶ 5 วัน ◀</p>
+                                    <p class="text-xs text-slate-500 font-medium">20-25 มี.ค. 2027</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-black text-slate-800">TPE</p>
+                                    <p class="text-sm text-slate-500 font-medium">ไทเป 🇹🇼</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-slate-300 pt-3 sm:pt-0 sm:pl-4">
+                            <p class="text-sm text-slate-500 font-medium">ราคารวมไป-กลับ</p>
+                            <p class="text-3xl font-black text-slate-800 mb-2">฿4,850</p>
+                            <button type="button" class="nes-btn is-warning font-bold text-sm w-full">จองเลย ↗</button>
                         </div>
                     </div>
                 </div>
@@ -134,51 +222,72 @@
 
             <!-- WATCHLIST -->
             <div class="nes-container with-title">
-                <p class="title font-pixel text-xs text-red-500">❤️ WATCHLIST</p>
+                <p class="title text-base text-red-500 font-bold">❤️ รายการแอบเล็งไว้</p>
 
-                <div class="space-y-4">
+                <div class="space-y-3">
+                    <div class="nes-container is-rounded bg-emerald-50 p-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ เชียงใหม่</p>
+                            <span class="nes-text is-success text-sm font-bold">ถูกเวอร์! 🔥</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿1,200</p>
+                            <p class="font-black text-emerald-600 text-lg">฿890</p>
+                        </div>
+                    </div>
+
                     <div class="nes-container is-rounded bg-red-50 p-3">
                         <div class="flex justify-between items-center mb-1">
-                            <p class="font-bold text-xs">DMK ✈️ KIX</p>
-                            <span class="nes-text is-error text-[10px] font-bold">MATCH! 🔥</span>
+                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ โอซาก้า</p>
+                            <span class="nes-text is-error text-sm font-bold">ตรงเป้า! 🔥</span>
                         </div>
-                        <div class="flex justify-between items-end text-xs">
-                            <p class="text-slate-500 text-[10px] font-bold">TARGET: ≤ ฿7,000</p>
-                            <p class="font-pixel text-red-600 text-sm">฿6,400</p>
+                        <div class="flex justify-between items-end">
+                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿7,000</p>
+                            <p class="font-black text-red-600 text-lg">฿6,400</p>
                         </div>
                     </div>
 
                     <div class="nes-container is-rounded p-3">
                         <div class="flex justify-between items-center mb-1">
-                            <p class="font-bold text-xs">BKK ✈️ ICN</p>
-                            <span class="nes-text is-disabled text-[10px] font-bold">WAITING</span>
+                            <p class="font-bold text-sm text-slate-800">กรุงเทพฯ ✈️ โซล</p>
+                            <span class="nes-text is-disabled text-sm font-medium">รอโปรต่อไป</span>
                         </div>
-                        <div class="flex justify-between items-end text-xs">
-                            <p class="text-slate-500 text-[10px] font-bold">TARGET: ≤ ฿8,000</p>
-                            <p class="font-pixel text-slate-700 text-sm">฿9,200</p>
+                        <div class="flex justify-between items-end">
+                            <p class="text-slate-600 text-sm font-medium">เป้า: ≤ ฿8,000</p>
+                            <p class="font-black text-slate-700 text-lg">฿9,200</p>
                         </div>
                     </div>
 
-                    <button type="button" class="nes-btn is-normal text-xs w-full">+ ADD ROUTE</button>
+                    <button type="button" class="nes-btn is-normal text-sm font-bold w-full">+ เพิ่มเส้นทาง</button>
+                </div>
+            </div>
+
+            <!-- LIVE ACTIVITY LOG -->
+            <div class="nes-container with-title">
+                <p class="title text-base text-blue-500 font-bold">📜 บันทึกเรดาร์</p>
+                <div class="text-xs text-slate-600 space-y-2 font-medium">
+                    <p><span class="text-emerald-600 font-bold">[09:03]</span> เจอDMK ➔ CNX ลดเหลือ ฿890!</p>
+                    <p><span class="text-red-500 font-bold">[08:45]</span> เจอ DMK ➔ KIX ลดเหลือ ฿6,400</p>
+                    <p><span class="text-slate-400 font-bold">[00:00]</span> บอทรีเซ็ตระบบค้นหาประจำวัน</p>
                 </div>
             </div>
 
             <!-- SETTINGS -->
             <div class="nes-container with-title">
-                <p class="title font-pixel text-xs text-green-600">⚙️ AUTO TRACKER</p>
+                <p class="title text-base text-green-600 font-bold">⚙️ ระบบอัตโนมัติ</p>
 
-                <div class="space-y-3 text-xs">
+                <div class="space-y-3 text-sm">
                     <div class="flex justify-between items-center">
-                        <span class="font-bold">AUTO BOT:</span>
-                        <span class="nes-text is-success font-bold">ONLINE</span>
+                        <span class="font-bold text-slate-700">สถานะบอท:</span>
+                        <span class="nes-text is-success font-bold">เปิดทำงาน</span>
                     </div>
-                    <div class="flex justify-between items-center text-slate-600 font-bold">
-                        <span>TIME:</span>
-                        <span>12:00 PM</span>
+                    <div class="flex justify-between items-center text-slate-600 font-medium">
+                        <span>เวลาดึงราคา:</span>
+                        <span class="font-bold text-slate-800">12:00 น.</span>
                     </div>
-                    <div class="flex justify-between items-center text-slate-600 font-bold">
-                        <span>TIMEZONE:</span>
-                        <span>THAILAND</span>
+                    <div class="flex justify-between items-center text-slate-600 font-medium">
+                        <span>เขตเวลา:</span>
+                        <span class="font-bold text-slate-800">ประเทศไทย</span>
                     </div>
                 </div>
             </div>
@@ -188,8 +297,8 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-8 text-center text-xs text-slate-500 py-4 font-bold">
-        <p>ANYWHERE 2027 🎮 GAME OVER FOR WORK, TIME TO FLY!</p>
+    <footer class="mt-8 text-center text-sm text-slate-500 py-4 font-bold">
+        <p>ANYWHERE 2027 🎮 ได้เวลาพักงาน แล้วออกไปบิน!</p>
     </footer>
 
 </body>
